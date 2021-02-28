@@ -19,27 +19,24 @@ const divBoxesRef = document.querySelector('#boxes');
 const btnRenderRef = document.querySelector('[data-action="render"]');
 const btnDestroyRef = document.querySelector('[data-action="destroy"]');
 const inputRef = document.querySelector('[type="number"]');
-let amount = inputRef.value;
+let amount;
 
-inputRef.addEventListener('change', onInputChange);
-btnRenderRef.addEventListener('click', createBoxes);
+inputRef.addEventListener('input', e => (amount = e.currentTarget.value));
+btnRenderRef.addEventListener('click', () => createBoxes(amount));
 btnDestroyRef.addEventListener('click', destroyBoxes);
 
-function onInputChange(event) {
-  amount = Number(event.target.value);
-  return amount;
-}
-
-function createBoxes(amount) {
+function createBoxes() {
   const divArray = [];
+  let size = 30;
   for (let i = 1; i <= amount; i += 1) {
     const newDiv = document.createElement('div');
     newDiv.style.backgroundColor =
       '#' +
       (Math.random().toString(16) + '000000').substring(2, 8).toUpperCase();
-    newDiv.style.width = '30px';
-    newDiv.style.height = '30px';
+    newDiv.style.width += size + 'px';
+    newDiv.style.height += size + 'px';
     divArray.push(newDiv);
+    size += 10;
   }
   divBoxesRef.append(...divArray);
 }
